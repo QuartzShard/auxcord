@@ -74,11 +74,8 @@ class play(commands.Cog):
             await ctx.send(embed=embed)
             return
         guildVars["player"].addtoqueue(track)
-        try:
-           guildVars["player"].voiceclient.play(track.handler, after=lambda e: self.onFinish(guild))
-        except discord.ClientException as er:
-            pass
-        await ctx.send(embed=guildVars["player"].nowPlaying())
+        embed = await track.play(guildVars["player"],guild,self.onFinish)
+        await ctx.send(embed=embed)
         lib.set(guild.id,self.bot,guildVars)
 
     def onFinish(self, guild):

@@ -14,15 +14,18 @@ class Track():
             self.restricted = True
         self.title = self.handler.title
 
-    async def play(self, player, guild, vc, after):
+    async def play(self, player, guild, after):
         try:
-            vc.play(self.handler,after=lambda e: after(guild, vc))
+            player.voiceclient.play(self.handler,after=lambda e: after(guild))
         except discord.ClientException as er:
             if er.args[0] == 'Already playing audio.':
                 player.addtoqueue(self)
+                return lib.embed(
+                    title = "Track added to queue",
+                    description = self.title
+                )
         else:
             return lib.embed(
                 title = "Now playing:",
                 description = self.title
             )
-
