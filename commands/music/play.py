@@ -77,7 +77,7 @@ class play(commands.Cog):
             guildVars["previous"] = await lib.send(ctx,embed,guildVars["previous"])
             lib.set(ctx.guild.id,self.bot,guildVars)
             return
-        embed = await track.play(guildVars["player"],guild,self.onFinish)
+        embed = await track.play(self.bot,ctx,guildVars["player"],guild,self.onFinish)
         guildVars["previous"] = await lib.send(ctx,embed,guildVars["previous"])
         lib.set(ctx.guild.id,self.bot,guildVars)
         return
