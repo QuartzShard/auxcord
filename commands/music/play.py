@@ -65,7 +65,7 @@ class play(commands.Cog):
             track = media
         else:
             track = Track(media)
-            await track.async_init(self.bot, guild)
+            await track.async_init(self.bot.loop, guild)
         if track.restricted:
             embed = lib.embed(
                 title = "Playback error. Likely age restricted or otherwise prohibited video",
@@ -79,9 +79,9 @@ class play(commands.Cog):
 
     def onFinish(self, guild):
         guildVars = lib.retrieve(guild.id, self.bot)
-        nexttrack = guildVars["player"].nexttrack()
-        if not guild.me.voice:
+        if not guild.me.voice or not guildVars["player"]:
             return
+        nexttrack = guildVars["player"].nexttrack()
         if not nexttrack:
             coroutine = guildVars["player"].voiceclient.disconnect()
         else:

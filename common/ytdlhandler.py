@@ -33,7 +33,7 @@ class ytdlSrc(discord.PCMVolumeTransformer):
         else:
             self.title = playNow.get('title')
         self.toQueue = toQueue
-        self.url = data.get('url')
+        self.url = playNow.get('webpage_url')
 
     @classmethod
     async def from_url(cls, url, *, loop=None, stream=False):
