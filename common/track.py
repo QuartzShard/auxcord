@@ -1,6 +1,7 @@
 ## Class to handle information about individual tracks
 import boilerBot.lib as lib
 from common import ytdlhandler
+import asyncio
 import discord
 class Track():
     def __init__(self, searchterm):
@@ -33,6 +34,7 @@ class Track():
                 addtrack = Track(entry['webpage_url'])
                 await addtrack.async_init(self.loop, guild)
                 player.addtoqueue(addtrack)
+                await asyncio.sleep(1)
         try:
             player.voiceclient.play(self.handler,after=lambda e: after(guild))
         except discord.ClientException as er:
