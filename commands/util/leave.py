@@ -1,6 +1,7 @@
 ## Initialisation
 import boilerBot.lib as lib
 import discord
+import asyncio
 
 from discord.ext import commands, tasks
 
@@ -27,16 +28,19 @@ class leave(commands.Cog):
                 title = "You must be in the same voice channel to disconnect the bot",
                 color = lib.errorColour
             )
-            await ctx.send(embed=embed)
+            guildVars["previous"] = await lib.send(ctx,embed,guildVars["previous"])
+            lib.set(ctx.guild.id,self.bot,guildVars)
             return
         guildVars["player"] = None
         await ctx.voice_client.disconnect()
         embed = lib.embed(
             title = f"Left **{ctx.me.voice.channel}**"
         )
+        guildVars["previous"] = await lib.send(ctx,embed,guildVars["previous"])
+        await asyncio.sleep(5)
+        guildVars["previous"] = await lib.clean(guildVars["previous"])
         lib.set(ctx.guild.id,self.bot,guildVars)
-        await ctx.send(embed=embed)
-        return        
+        return       
 
     
         

@@ -30,14 +30,16 @@ class play(commands.Cog):
                     embed = lib.embed(
                         title = 'Playback has been resumed.'
                     )
-                    await ctx.send(embed=embed)
+                    guildVars["previous"] = await lib.send(ctx,embed,guildVars["previous"])
+                    lib.set(ctx.guild.id,self.bot,guildVars)
                     return
             embed = lib.embed(
                 title = 'ERROR',
                 description = 'You did not specify what to play.',
                 color = lib.errorColour
             )
-            await ctx.send(embed=embed)
+            guildVars["previous"] = await lib.send(ctx,embed,guildVars["previous"])
+            lib.set(ctx.guild.id,self.bot,guildVars)
             return
         # Join channel if not already in one
         elif not ctx.me.voice:
@@ -47,7 +49,8 @@ class play(commands.Cog):
             embed = lib.embed(
                 title = "You must be in the same voice channel as the bot to play"
             )
-            await ctx.send(embed=embed)
+            guildVars["previous"] = await lib.send(ctx,embed,guildVars["previous"])
+            lib.set(ctx.guild.id,self.bot,guildVars)
             return
              ## If more than one word is passed, collapse args into one string
         if len(command) > 1:
@@ -71,11 +74,13 @@ class play(commands.Cog):
                 title = "Playback error. Likely age restricted or otherwise prohibited video",
                 color = lib.errorColour
             )
-            await ctx.send(embed=embed)
+            guildVars["previous"] = await lib.send(ctx,embed,guildVars["previous"])
+            lib.set(ctx.guild.id,self.bot,guildVars)
             return
         embed = await track.play(guildVars["player"],guild,self.onFinish)
-        await ctx.send(embed=embed)
-        lib.set(guild.id,self.bot,guildVars)
+        guildVars["previous"] = await lib.send(ctx,embed,guildVars["previous"])
+        lib.set(ctx.guild.id,self.bot,guildVars)
+        return
 
     def onFinish(self, guild):
         guildVars = lib.retrieve(guild.id, self.bot)

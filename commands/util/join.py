@@ -28,7 +28,8 @@ class join(commands.Cog):
                 description = "You must be in a voice channel for the bot to join you",
                 color = lib.errorColour
             )
-            await ctx.send(embed=embed),
+            guildVars["previous"] = await lib.send(ctx,embed,guildVars["previous"])
+            lib.set(ctx.guild.id,self.bot,guildVars)
             return
         # Check bot is not already playing music, and if it is, check caller is allowed to move users
         if ctx.voice_client != None:
@@ -38,7 +39,8 @@ class join(commands.Cog):
                     description = 'Only users with the "Move Members" permission may move the bot',
                     color = lib.errorColour
                 )
-                await ctx.send(embed=embed),
+                guildVars["previous"] = await lib.send(ctx,embed,guildVars["previous"])
+                lib.set(ctx.guild.id,self.bot,guildVars)
                 return
             else:
                 await guildVars["player"].voiceclient.move_to(ctx.author.voice.channel)
@@ -49,8 +51,8 @@ class join(commands.Cog):
             title = f"Joined **{ctx.author.voice.channel}**",
             color = lib.defaultColour
         )
+        guildVars["previous"] = await lib.send(ctx,embed,guildVars["previous"])
         lib.set(ctx.guild.id,self.bot,guildVars)
-        await ctx.send(embed=embed)
         return
 
     

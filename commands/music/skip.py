@@ -25,7 +25,8 @@ class skip(commands.Cog):
                 title="Not playing anything",
                 color = lib.errorColour
             )    
-            await ctx.send(embed=embed)
+            guildVars["previous"] = await lib.send(ctx,embed,guildVars["previous"])
+            lib.set(ctx.guild.id,self.bot,guildVars)
             return
         title = guildVars["player"].queue[0].title
         guildVars["player"].voiceclient.stop()
@@ -33,7 +34,8 @@ class skip(commands.Cog):
         embed=lib.embed(
             title=f"Skipped {title}"
         )
-        await ctx.send(embed=embed)
+        guildVars["previous"] = await lib.send(ctx,embed,guildVars["previous"])
+        lib.set(ctx.guild.id,self.bot,guildVars)
         return
 
     

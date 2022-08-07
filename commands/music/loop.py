@@ -26,7 +26,8 @@ class loop(commands.Cog):
                 title="No queue to loop",
                 color = lib.errorColour
             )    
-            await ctx.send(embed=embed)
+            guildVars["previous"] = await lib.send(ctx,embed,guildVars["previous"])
+            lib.set(ctx.guild.id,self.bot,guildVars)
             return
         guildVars["player"].loop = not guildVars["player"].loop    
         lib.set(ctx.guild.id,self.bot,guildVars)
@@ -37,7 +38,8 @@ class loop(commands.Cog):
         embed = lib.embed(
             title = title
         )
-        await ctx.send(embed=embed)
+        guildVars["previous"] = await lib.send(ctx,embed,guildVars["previous"])
+        lib.set(ctx.guild.id,self.bot,guildVars)    
         return
 
     

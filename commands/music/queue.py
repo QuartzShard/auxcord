@@ -26,7 +26,8 @@ class queue(commands.Cog):
                 title="No queue to show",
                 color = lib.errorColour
             )    
-            await ctx.send(embed=embed)
+            guildVars["previous"] = await lib.send(ctx,embed,guildVars["previous"])
+            lib.set(ctx.guild.id,self.bot,guildVars)
             return
         if command:
             page = int(command[0])
@@ -49,7 +50,8 @@ class queue(commands.Cog):
             description = qlist,
             footer = f"Page {page} of {len(q)//20 + 1}"
         )
-        await ctx.send(embed=embed)
+        guildVars["previous"] = await lib.send(ctx,embed,guildVars["previous"])
+        lib.set(ctx.guild.id,self.bot,guildVars)
         return
 
     
