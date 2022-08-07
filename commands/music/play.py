@@ -35,7 +35,7 @@ class play(commands.Cog):
             embed = lib.embed(
                 title = 'ERROR',
                 description = 'You did not specify what to play.',
-                color = lib.errorColor
+                color = lib.errorColour
             )
             await ctx.send(embed=embed)
             return
