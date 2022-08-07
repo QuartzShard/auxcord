@@ -26,7 +26,7 @@ class Track():
         if not self.handler:
             self.handler = await ytdlhandler.ytdlSrc.from_url(self.searchterm, loop=self.loop,stream=True)
         if self.handler.toQueue:
-            platlistq = True
+            playlistq = True
             player.addtoqueue(self)
             footer = f"Queued {len(self.handler.toQueue)} tracks from playlist"
             for entry in self.handler.toQueue:
@@ -38,16 +38,16 @@ class Track():
         except discord.ClientException as er:
             if not playlistq:
                 player.addtoqueue(self)
-                if er.args[0] == 'Already playing audio.':
-                    if footer:
-                        return lib.embed(
-                            title = f"{len(self.handler.toQueue) + 1} tracks added to queue",                           
-                        )
-                    else:
-                        return lib.embed(
-                            title = "Track added to queue",
-                            description = self.title
-                        )
+            if er.args[0] == 'Already playing audio.':
+                if footer:
+                    return lib.embed(
+                        title = f"{len(self.handler.toQueue) + 1} tracks added to queue",                           
+                    )
+                else:
+                    return lib.embed(
+                        title = "Track added to queue",
+                        description = self.title
+                    )
         else:
             if player.queue == []:
                 player.addtoqueue(self)

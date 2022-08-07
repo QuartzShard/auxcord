@@ -39,11 +39,11 @@ class queue(commands.Cog):
             qlen = (20 * page)
             qlow = qlen - 20
         elif qlen > 20:
-            qlow = qlen - 20
+            qlow = 20 * (page - 1) 
         else:
             qlow = 0
         for i in range(qlow, qlen):
-            qlist += f"{q[i].title}\n"
+            qlist += f"{i+1}: {q[i].title}\n"
         embed = lib.embed(
             title = "Current queue:",
             description = qlist,
