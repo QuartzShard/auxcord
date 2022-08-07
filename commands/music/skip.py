@@ -40,4 +40,4 @@ class skip(commands.Cog):
         
     
 def setup(bot):
-    bot.add_cog(queue(bot))
+    bot.add_cog(skip(bot))
