@@ -3,29 +3,62 @@ import boilerBot.lib as lib
 from common import ytdlhandler
 import discord
 class Track():
-    def __init__(self):
+    def __init__(self, searchterm):
         self.handler = None
         self.title = None
         self.restricted = False
+        self.searchterm = searchterm
+        self.loop = None
 
-    async def _init(self, searchterm, bot, guild):
-        self.handler = await ytdlhandler.ytdlSrc.from_url(searchterm, bot,guild, loop=bot.loop,stream=True)
+    async def async_init(self, loop, guild):
+        self.loop = loop
+        self.handler = await ytdlhandler.ytdlSrc.from_url(self.searchterm, loop=self.loop,stream=True)
         if not self.handler:
             self.restricted = True
+            return
         self.title = self.handler.title
+        self.searchterm = self.handler.url
+        return
 
     async def play(self, player, guild, after):
+        playlistq = False
+        footer = None
+        if not self.handler:
+            self.handler = await ytdlhandler.ytdlSrc.from_url(self.searchterm, loop=self.loop,stream=True)
+        if self.handler.toQueue:
+            playlistq = True
+            player.addtoqueue(self)
+            footer = f"Queued {len(self.handler.toQueue)} tracks from playlist"
+            for entry in self.handler.toQueue:
+                addtrack = Track(entry['webpage_url'])
+                await addtrack.async_init(self.loop, guild)
+                player.addtoqueue(addtrack)
         try:
             player.voiceclient.play(self.handler,after=lambda e: after(guild))
         except discord.ClientException as er:
-            if er.args[0] == 'Already playing audio.':
+            if not playlistq:
                 player.addtoqueue(self)
-                return lib.embed(
-                    title = "Track added to queue",
-                    description = self.title
-                )
+            if er.args[0] == 'Already playing audio.':
+                if footer:
+                    return lib.embed(
+                        title = f"{len(self.handler.toQueue) + 1} tracks added to queue",                           
+                    )
+                else:
+                    return lib.embed(
+                        title = "Track added to queue",
+                        description = self.title
+                    )
         else:
-            return lib.embed(
-                title = "Now playing:",
-                description = self.title
-            )
+            if player.queue == []:
+                player.addtoqueue(self)
+            if footer:
+                return lib.embed(
+                    title = "Now playing:",
+                    description = self.title,
+                    footer = footer
+                )
+            else:
+                return lib.embed(
+                    title = "Now playing:",
+                    description = self.title,
+                )

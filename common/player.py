@@ -18,11 +18,15 @@ class Player():
         self.queue.append(track)
 
     def nexttrack(self):
+        self.queue[0].handler = None
         if self.loop:
             self.queue.append(self.queue.pop(0))
         else:
             self.queue.pop(0)
-        return self.queue[0]
+        if self.queue != []:
+            return self.queue[0]
+        else:
+            return None
     
     async def connect(self,channel):
         self.voiceclient = await channel.connect()

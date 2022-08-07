@@ -33,10 +33,10 @@ class ytdlSrc(discord.PCMVolumeTransformer):
         else:
             self.title = playNow.get('title')
         self.toQueue = toQueue
-        self.url = data.get('url')
+        self.url = playNow.get('webpage_url')
 
     @classmethod
-    async def from_url(cls, url, bot, guild, *, loop=None, stream=False):
+    async def from_url(cls, url, *, loop=None, stream=False):
         loop = loop or asyncio.get_event_loop()
         try:
             data = await loop.run_in_executor(None, lambda: ytdl.extract_info(url, download=not stream))
