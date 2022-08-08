@@ -18,7 +18,7 @@ class shuffle(commands.Cog):
         self.forbidden = False
         
     @commands.command()
-    async def queue(self, ctx, *command):
+    async def shuffle(self, ctx, *command):
         guildVars = lib.retrieve(ctx.guild.id, self.bot)
         if not guildVars["player"]:
             embed = lib.embed(
