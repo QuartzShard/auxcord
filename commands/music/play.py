@@ -52,7 +52,7 @@ class play(commands.Cog):
             guildVars["previous"] = await lib.send(ctx,embed,guildVars["previous"])
             lib.set(ctx.guild.id,self.bot,guildVars)
             return
-             ## If more than one word is passed, collapse args into one string
+        ## If more than one word is passed, collapse args into one string
         if len(command) > 1:
             media = " ".join(command)
         else:
