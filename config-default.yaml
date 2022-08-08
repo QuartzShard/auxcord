@@ -3,7 +3,7 @@
 #Discord API settings. Don't add or remove any of these.
 discord:
   #Provide your login token
-  token: "YOUR-TOKEN-HERE"
+  token: "TOKEN"
   #Manage requested intents                  
   intents:        
     members: False #Change to true if the bot needs to know about users
@@ -36,16 +36,14 @@ options:
         b: 0x00
     #Thumbnail image URL
     thumbnail: ""
+    # When true, the bot will delete its messages after a short time
+    cleanup: True
   #Logging behaviour
   logging:                              
     #WARNING! if you disable all logging and something breaks, fixing it will be very difficult. 
     #Recommend you leave console logging enabled as a minimum
-    
     #Enable logging to console
     logToConsole: True
     #Enable logging to a file
     logToFile: False
     logFilePath: ""
-  
-  # When true, the bot will delete its messages after a short time
-  cleanup: True
