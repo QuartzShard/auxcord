@@ -1,0 +1,51 @@
+# Make a copy of this file called config.yaml with your chosen edits
+
+#Discord API settings. Don't add or remove any of these.
+discord:
+  #Provide your login token
+  token: "YOUR-TOKEN-HERE"
+  #Manage requested intents                  
+  intents:        
+    members: False #Change to true if the bot needs to know about users
+    guilds: True #Leave this as true unless you know you don't need it
+    reactions : False #Change this to true if your bot needs to interact with message reactions
+
+#About info
+#Describe your bot!
+about:
+  title: "auxcord"
+  desc: "A simple, fully-featured music bot"
+  url: "https://github.com/QuartzShard/auxcord"
+
+#Bot settings
+#Add options for your bot under here. Options can be removed if unneeded, but is unrecommended.    
+options:
+  #Bot Command Prefix 
+  prefix: "!" 
+  #Message embed settings
+  embed:
+    colour:
+      #RGB values for colour presets
+      default:
+        r: 0xb4
+        g: 0xeb
+        b: 0xeb
+      error:
+        r: 0xff
+        g: 0x00
+        b: 0x00
+    #Thumbnail image URL
+    thumbnail: ""
+  #Logging behaviour
+  logging:                              
+    #WARNING! if you disable all logging and something breaks, fixing it will be very difficult. 
+    #Recommend you leave console logging enabled as a minimum
+    
+    #Enable logging to console
+    logToConsole: True
+    #Enable logging to a file
+    logToFile: False
+    logFilePath: ""
+  
+  # When true, the bot will delete its messages after a short time
+  cleanup: True
