@@ -23,7 +23,8 @@ class queue(commands.Cog):
         guildVars = lib.retrieve(ctx.guild.id, self.bot)
         if not guildVars["player"]:
             embed = lib.embed(
-                title="No queue to show",
+                title="ERROR",
+                description="No queue to show",
                 color = lib.errorColour
             )    
             guildVars["previous"] = await lib.send(ctx,embed,guildVars["previous"])

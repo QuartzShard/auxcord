@@ -22,7 +22,8 @@ class skip(commands.Cog):
         guildVars = lib.retrieve(ctx.guild.id, self.bot)
         if not guildVars["player"]:
             embed = lib.embed(
-                title="Not playing anything",
+                title="ERROR",
+                description="There is nothing to skip.",
                 color = lib.errorColour
             )    
             guildVars["previous"] = await lib.send(ctx,embed,guildVars["previous"])
@@ -32,7 +33,8 @@ class skip(commands.Cog):
         guildVars["player"].voiceclient.stop()
         lib.set(ctx.guild.id, self.bot, guildVars)
         embed=lib.embed(
-            title=f"Skipped {title}"
+            title="SUCCESS",
+            description=f"Skipped {title}"
         )
         guildVars["previous"] = await lib.send(ctx,embed,guildVars["previous"])
         lib.set(ctx.guild.id,self.bot,guildVars)

@@ -23,7 +23,7 @@ class pause(commands.Cog):
         if not ctx.me.voice or ctx.voice_client == None:
             embed = lib.embed(
                 title = 'ERROR',
-                description = 'There is nothing currently playing',
+                description = 'There is nothing currently playing.',
                 color = lib.errorColour
             )
             guildVars["previous"] = await lib.send(ctx,embed,guildVars["previous"])
@@ -32,7 +32,7 @@ class pause(commands.Cog):
         elif ctx.author.voice.channel != ctx.me.voice.channel:
             embed = lib.embed(
                 title = 'ERROR',
-                description = 'You must be in the same voice channel as the bot to pause',
+                description = 'You must be in the same voice channel as the bot to pause.',
                 color = lib.errorColour
             )
             guildVars["previous"] = await lib.send(ctx,embed,guildVars["previous"])
@@ -41,7 +41,7 @@ class pause(commands.Cog):
         elif ctx.voice_client.is_paused():
             embed = lib.embed(
                 title = 'ERROR',
-                description = f'Already paused, use {self.bot.command_prefix}play to resume',
+                description = f'Already paused, use {self.bot.command_prefix}play to resume.',
                 color = lib.errorColour
             )
             guildVars["previous"] = await lib.send(ctx,embed,guildVars["previous"])
@@ -49,7 +49,8 @@ class pause(commands.Cog):
             return
         ctx.voice_client.pause()
         embed = lib.embed(
-            title = f'Playback has been paused, use {self.bot.command_prefix}play to resume'
+            title = "SUCCESS",
+            description = f'Playback has been paused, use {self.bot.command_prefix}play to resume.'
         )
         guildVars["previous"] = await lib.send(ctx,embed,guildVars["previous"])
         lib.set(ctx.guild.id,self.bot,guildVars)

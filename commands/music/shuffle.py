@@ -22,7 +22,8 @@ class shuffle(commands.Cog):
         guildVars = lib.retrieve(ctx.guild.id, self.bot)
         if not guildVars["player"]:
             embed = lib.embed(
-                title="No queue to shuffle",
+                title="ERROR",
+                description="There is no queue to shuffle.",
                 color = lib.errorColour
             )    
             guildVars["previous"] = await lib.send(ctx,embed,guildVars["previous"])
@@ -30,14 +31,17 @@ class shuffle(commands.Cog):
             return
         elif ctx.author.voice.channel != ctx.me.voice.channel:
             embed = lib.embed(
-                title = "You must be in the same voice channel as the bot to shuffle"
+                title = "ERROR",
+                description="You must be in the same voice channel as the bot to shuffle.",
+                color = lib.errorColour
             )
             guildVars["previous"] = await lib.send(ctx,embed,guildVars["previous"])
             lib.set(ctx.guild.id,self.bot,guildVars)
             return      
         random.shuffle(guildVars["player"].queue)
         embed = lib.embed(
-            title = "Queue has been shuffled"
+            title = "SUCCESS",
+            description="The queue has been shuffled."
         )
         guildVars["previous"] = await lib.send(ctx,embed,guildVars["previous"])
         lib.set(ctx.guild.id,self.bot,guildVars)
