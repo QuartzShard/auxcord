@@ -8,11 +8,12 @@ ytdl_format_options = {
     'restrictfilenames': True,
     'noplaylist': True,
     'nocheckcertificate': True,
-    'ignoreerrors': False,
+    'ignoreerrors': True,
     'logtostderr': False,
     'quiet': True,
     'no_warnings': True,
     'default_search': 'auto',
+    'extract_flat': 'in_playlist',
     'source_address': '0.0.0.0' # bind to ipv4 since ipv6 addresses cause issues sometimes
 }
 
@@ -49,8 +50,13 @@ class ytdlSrc(discord.PCMVolumeTransformer):
                 playlistLength = len(data['entries'])
                 q = data['entries'][1:playlistLength]
             p = data['entries'][0]
+            return {
+                'title':p['title'],
+                'url':p['url'],
+                'toQueue':q
+                }
         else:
             p = data
-
-        filename = p['url'] if stream else ytdl.prepare_filename(data)
-        return cls(discord.FFmpegPCMAudio(filename, **ffmpeg_options), data=data, playNow=p, toQueue=q)
+            filename = p['url'] if stream else ytdl.prepare_filename(data)
+            return cls(discord.FFmpegPCMAudio(filename, **ffmpeg_options), data=data, playNow=p, toQueue=q)
+           
