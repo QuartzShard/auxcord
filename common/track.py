@@ -42,7 +42,8 @@ class Track():
                 if not playlistq:
                     player.addtoqueue(self)
                 return lib.embed(
-                    title="Something went wrong playing that track",
+                    title="Something went wrong playing that track.",
+                    footer="If the bot has just restarted and is still in the voice channel, disconnect it and try again",
                     colour=lib.errorColour
                 )
             else:

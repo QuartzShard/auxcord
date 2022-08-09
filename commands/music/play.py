@@ -42,9 +42,12 @@ class play(commands.Cog):
             lib.set(ctx.guild.id,self.bot,guildVars)
             return
         # Join channel if not already in one
-        elif not ctx.me.voice:
+        elif not guildVars['player']:
             guildVars["player"] = Player(ctx.guild, ctx)
-            await guildVars["player"].connect(ctx.author.voice.channel)
+            if ctx.me.voice:
+                guildVars['player'].voiceclient = ctx.voice_client
+            else:
+                await guildVars["player"].connect(ctx.author.voice.channel)
         elif ctx.author.voice.channel != ctx.me.voice.channel:
             embed = lib.embed(
                 title = "You must be in the same voice channel as the bot to play"
