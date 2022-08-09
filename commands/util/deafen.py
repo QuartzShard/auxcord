@@ -7,7 +7,7 @@ class selfDeaf(commands.Cog):
     ## Initialise with help info
     def __init__(self, bot):
         self.bot = bot
-        self.forbidden = True # Command is not visible in help menu
+        self.hidden = True # Command is not visible in help menu
 
 
     ## Self deafen when voice state changes.

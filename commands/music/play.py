@@ -17,7 +17,7 @@ class play(commands.Cog):
         {self.bot.command_prefix}play <search term>
         {self.bot.command_prefix}play <youtube_url>
         """
-        self.forbidden = False
+        self.hidden = False
         
     @commands.command()
     async def play(self, ctx, *command):

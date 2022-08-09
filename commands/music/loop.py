@@ -15,7 +15,7 @@ class loop(commands.Cog):
         self.usage = f"""
         {self.bot.command_prefix}loop
         """
-        self.forbidden = False
+        self.hidden = False
         
     @commands.command()
     async def loop(self, ctx, *command):

@@ -15,7 +15,7 @@ class join(commands.Cog):
         self.usage = f"""
         {self.bot.command_prefix}join
         """
-        self.forbidden = False
+        self.hidden = False
         
     @commands.command()
     @commands.has_guild_permissions(connect=True)

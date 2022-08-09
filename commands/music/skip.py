@@ -15,7 +15,7 @@ class skip(commands.Cog):
         self.usage = f"""
         {self.bot.command_prefix}skip
         """
-        self.forbidden = False
+        self.hidden = False
         
     @commands.command()
     async def skip(self, ctx, *command):

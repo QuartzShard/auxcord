@@ -16,7 +16,7 @@ class queue(commands.Cog):
         {self.bot.command_prefix}queue
         {self.bot.command_prefix}queue <page number>
         """
-        self.forbidden = False
+        self.hidden = False
         
     @commands.command()
     async def queue(self, ctx, *command):

@@ -15,7 +15,7 @@ class leave(commands.Cog):
         self.usage = f"""
         {self.bot.command_prefix}leave
         """
-        self.forbidden = False
+        self.hidden = False
         
     @commands.command()
     @commands.has_guild_permissions(connect=True)
