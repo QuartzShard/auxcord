@@ -35,7 +35,9 @@ class shuffle(commands.Cog):
             guildVars["previous"] = await lib.send(ctx,embed,guildVars["previous"])
             lib.set(ctx.guild.id,self.bot,guildVars)
             return      
-        random.shuffle(guildVars["player"].queue)
+        toshuffle =  guildVars["player"].queue[1:]
+        random.shuffle(toshuffle)
+        guildVars["player"].queue[1:] = toshuffle
         embed = lib.embed(
             title = "Queue has been shuffled"
         )
