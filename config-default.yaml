@@ -22,6 +22,8 @@ about:
 options:
   #Bot Command Prefix 
   prefix: "!" 
+  #Store data in a json over restarts?
+  persist: False
   #Message embed settings
   embed:
     colour:
