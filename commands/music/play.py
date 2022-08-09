@@ -25,8 +25,9 @@ class play(commands.Cog):
         # No track specified, figure out if resuming
         if len(command) == 0:
             if ctx.voice_client != None:
-                if ctx.voice_client.is_paused():
+                if guildVars['player'].ispaused:
                     ctx.voice_client.resume()
+                    guildVars['player'].ispaused = False
                     embed = lib.embed(
                         title = 'Playback has been resumed.'
                     )

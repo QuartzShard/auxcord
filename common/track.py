@@ -34,47 +34,50 @@ class Track():
         footer = None
         if not self.handler:
             self.handler = await ytdlhandler.ytdlSrc.from_url(self.searchterm, loop=self.loop,stream=True)
-        try:
-            player.voiceclient.play(self.handler,after=lambda e: after(guild))
-        except discord.ClientException as er:
-            if er.args[0] == 'Already playing audio.':
+        if not player.ispaused:
+            try:
+                player.voiceclient.play(self.handler,after=lambda e: after(guild))
+            except:
                 playlistq, footer = await self.handlePlaylist(player)
                 if not playlistq:
                     player.addtoqueue(self)
+                return lib.embed(
+                    title="Something went wrong playing that track",
+                    colour=lib.errorColour
+                )
+            else:
+                playlistq, footer = await self.handlePlaylist(player)
+                if player.queue == []:
+                    player.addtoqueue(self)
                 if footer:
                     return lib.embed(
-                        title = f"{len(self.toQueue) + 1} tracks added to queue",                           
+                        title = "Now playing:",
+                        description = self.title,
+                        footer = footer
                     )
                 else:
                     return lib.embed(
-                        title = "Track added to queue",
-                        description = self.title
+                        title = "Now playing:",
+                        description = self.title,
                     )
-        except:
+        else:
             playlistq, footer = await self.handlePlaylist(player)
             if not playlistq:
                 player.addtoqueue(self)
-            return lib.embed(
-                title="Something went wrong playing that track",
-                colour=lib.errorColour
-            )
-            
-        else:
-            playlistq, footer = await self.handlePlaylist(player)
-            if player.queue == []:
-                player.addtoqueue(self)
             if footer:
                 return lib.embed(
-                    title = "Now playing:",
-                    description = self.title,
-                    footer = footer
+                    title = f"{len(self.toQueue) + 1} tracks added to queue",                           
                 )
             else:
                 return lib.embed(
-                    title = "Now playing:",
-                    description = self.title,
+                    title = "Track added to queue",
+                    description = self.title
                 )
-
+     
+                
+        
+            
+        
         
     async def handlePlaylist(self, player):
         try:

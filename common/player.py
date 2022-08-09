@@ -7,6 +7,7 @@ class Player():
         self.loop = False
         self.voiceclient = None
         self.ctx = ctx
+        self.ispaused = False
 
     def nowPlaying(self):
         return lib.embed(
