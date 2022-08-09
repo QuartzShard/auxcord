@@ -64,6 +64,7 @@ class play(commands.Cog):
     async def playback(self,media,guild):   
         guildVars = lib.retrieve(guild.id, self.bot)
         ctx = guildVars["player"].ctx
+        await ctx.channel.trigger_typing()
         if type(media) == Track:
             track = media
         else:
