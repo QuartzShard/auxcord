@@ -34,8 +34,7 @@ class play(commands.Cog):
                     lib.set(ctx.guild.id,self.bot,guildVars)
                     return
             embed = lib.embed(
-                title = 'ERROR',
-                description = 'You did not specify what to play.',
+                title = 'You did not specify what to play.',
                 color = lib.errorColour
             )
             guildVars["previous"] = await lib.send(ctx,embed,guildVars["previous"])

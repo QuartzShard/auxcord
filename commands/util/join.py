@@ -49,7 +49,6 @@ class join(commands.Cog):
             await guildVars["player"].connect(ctx.author.voice.channel)
         embed = lib.embed(
             title = f"Joined **{ctx.author.voice.channel}**",
-            color = lib.defaultColour
         )
         guildVars["previous"] = await lib.send(ctx,embed,guildVars["previous"])
         lib.set(ctx.guild.id,self.bot,guildVars)
