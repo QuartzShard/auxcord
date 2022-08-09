@@ -28,7 +28,8 @@ class play(commands.Cog):
                 if ctx.voice_client.is_paused():
                     ctx.voice_client.resume()
                     embed = lib.embed(
-                        title = 'Playback has been resumed.'
+                        title = "SUCCESS",
+                        description = 'Playback has been resumed.'
                     )
                     guildVars["previous"] = await lib.send(ctx,embed,guildVars["previous"])
                     lib.set(ctx.guild.id,self.bot,guildVars)
@@ -47,12 +48,14 @@ class play(commands.Cog):
             await guildVars["player"].connect(ctx.author.voice.channel)
         elif ctx.author.voice.channel != ctx.me.voice.channel:
             embed = lib.embed(
-                title = "You must be in the same voice channel as the bot to play"
+                title = "ERROR",
+                description = "You must be in the same voice channel as the bot to play.",
+                color = lib.errorColour
             )
             guildVars["previous"] = await lib.send(ctx,embed,guildVars["previous"])
             lib.set(ctx.guild.id,self.bot,guildVars)
             return
-             ## If more than one word is passed, collapse args into one string
+        ## If more than one word is passed, collapse args into one string
         if len(command) > 1:
             media = " ".join(command)
         else:
@@ -71,7 +74,8 @@ class play(commands.Cog):
             await track.async_init(self.bot.loop, guild)
         if track.restricted:
             embed = lib.embed(
-                title = "Playback error. Likely age restricted or otherwise prohibited video",
+                title = "ERROR",
+                description = "Cannot play video. Likely age restricted or otherwise prohibited.",
                 color = lib.errorColour
             )
             guildVars["previous"] = await lib.send(ctx,embed,guildVars["previous"])

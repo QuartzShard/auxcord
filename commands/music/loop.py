@@ -23,7 +23,8 @@ class loop(commands.Cog):
         
         if not guildVars["player"]:
             embed = lib.embed(
-                title="No queue to loop",
+                title = "ERROR",
+                description = "No queue to loop.",
                 color = lib.errorColour
             )    
             guildVars["previous"] = await lib.send(ctx,embed,guildVars["previous"])
@@ -32,18 +33,16 @@ class loop(commands.Cog):
         guildVars["player"].loop = not guildVars["player"].loop    
         lib.set(ctx.guild.id,self.bot,guildVars)
         if guildVars["player"].loop:
-            title = "Queue loop enabled."
+            description = "Queue loop enabled."
         else:
-            title = "Queue loop disabled."
+            description = "Queue loop disabled."
         embed = lib.embed(
-            title = title
+            title = "SUCCESS",
+            description = description
         )
         guildVars["previous"] = await lib.send(ctx,embed,guildVars["previous"])
         lib.set(ctx.guild.id,self.bot,guildVars)    
         return
 
-    
-        
-    
 def setup(bot):
     bot.add_cog(loop(bot))
