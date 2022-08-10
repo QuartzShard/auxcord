@@ -93,6 +93,7 @@ class play(commands.Cog):
         nexttrack = guildVars["player"].nexttrack()
         if not nexttrack:
             coroutine = guildVars["player"].voiceclient.disconnect()
+            guildVars['player'] = None
         else:
             coroutine = self.playback(nexttrack, guild)
         lib.set(guild.id,self.bot,guildVars)
