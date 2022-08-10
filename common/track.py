@@ -2,7 +2,7 @@
 import boilerBot.lib as lib
 from common import ytdlhandler
 import asyncio
-import discord
+import nextcord
 class Track():
     def __init__(self, searchterm,title=None):
         self.handler = None

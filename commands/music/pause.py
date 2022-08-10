@@ -1,8 +1,8 @@
 ## Initialisation
 import boilerBot.lib as lib
-import discord, asyncio
+import nextcord, asyncio
 
-from discord.ext import commands, tasks
+from  nextcord.ext import commands, tasks
 from common import ytdlhandler, Track, Player
 
 ## Define command cog
