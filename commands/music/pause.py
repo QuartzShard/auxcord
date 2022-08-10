@@ -15,7 +15,7 @@ class pause(commands.Cog):
         self.usage = f"""
         {self.bot.command_prefix}pause
         """
-        self.forbidden = False
+        self.hidden = False
         
     @commands.command()
     async def pause(self, ctx, *command):

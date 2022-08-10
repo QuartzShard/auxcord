@@ -15,7 +15,7 @@ class shuffle(commands.Cog):
         self.usage = f"""
         {self.bot.command_prefix}shuffle
         """
-        self.forbidden = False
+        self.hidden = False
         
     @commands.command()
     async def shuffle(self, ctx, *command):
