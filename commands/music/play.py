@@ -58,14 +58,22 @@ class play(commands.Cog):
             guildVars["previous"] = await lib.send(ctx,embed,guildVars["previous"])
             lib.set(ctx.guild.id,self.bot,guildVars)
             return
-            
+        elif not ctx.user.voice:
+            embed = lib.embed(
+                title = "You must be in a voice channel to play",
+                colour=lib.errorColour
+            )
+            guildVars["previous"] = await lib.send(ctx,embed,guildVars["previous"])
+            lib.set(ctx.guild.id,self.bot,guildVars)
+            return
         # Join channel if not already in one
         elif not guildVars['player']:
             guildVars["player"] = Player(ctx.guild, ctx)
             await guildVars["player"].connect(ctx.user.voice.channel)
         elif ctx.user.voice.channel != guildVars['player'].voiceclient.channel:
             embed = lib.embed(
-                title = "You must be in the same voice channel as the bot to play"
+                title = "You must be in the same voice channel as the bot to play",
+                colour=lib.errorColour
             )
             guildVars["previous"] = await lib.send(ctx,embed,guildVars["previous"])
             lib.set(ctx.guild.id,self.bot,guildVars)
