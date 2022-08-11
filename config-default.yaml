@@ -21,8 +21,10 @@ about:
 #Bot settings
 #Add options for your bot under here. Options can be removed if unneeded, but is unrecommended.    
 options:
-  #Bot Command Prefix 
-  prefix: "!" 
+  #Bot Command Prefix. Set to Null to use only slash commands
+  prefix: Null 
+  #Should core commands be registered as slash commands?
+  slashcommands: True
   #Store data in a json over restarts?
   persist: False
   #Message embed settings

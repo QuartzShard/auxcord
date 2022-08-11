@@ -11,14 +11,21 @@ class nowplaying(commands.Cog):
     def __init__(self,bot):
         self.bot = bot
         self.category = lib.getCategory(self.__module__)
-        self.description = "Shows what the bot is now playing"
+        self.description = "Shows what the bot is currently playing"
         self.usage = f"""
         {self.bot.command_prefix}nowplaying
         """
         self.hidden = False
         
-    @commands.command()
-    async def nowplaying(self, ctx, *command):
+    @nextcord.slash_command()
+    async def nowplaying(self, ctx):
+        """Shows what the bot is currently playing.
+
+        Parameters
+        ----------
+            ctx: Interaction
+                The interaction object
+        """
         guildVars = lib.retrieve(ctx.guild.id, self.bot)
         # Check bot is not already playing music, and if it is, check caller is allowed to move users
         if not guildVars['player']:

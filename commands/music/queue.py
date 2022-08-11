@@ -11,15 +11,24 @@ class queue(commands.Cog):
     def __init__(self,bot):
         self.bot = bot
         self.category = lib.getCategory(self.__module__)
-        self.description = "Shows the current queue"
+        self.description = "Show the current queue"
         self.usage = f"""
         {self.bot.command_prefix}queue
         {self.bot.command_prefix}queue <page number>
         """
         self.hidden = False
         
-    @commands.command()
-    async def queue(self, ctx, *command):
+    @nextcord.slash_command()
+    async def queue(self, ctx, page=1):
+        """Show the current queue
+
+        Parameters
+         ----------
+        ctx: Interaction
+            The interaction object
+        page: int
+            For queues longer than 20 tracks, show the specified page
+        """
         guildVars = lib.retrieve(ctx.guild.id, self.bot)
         if not guildVars["player"]:
             embed = lib.embed(
@@ -29,10 +38,6 @@ class queue(commands.Cog):
             guildVars["previous"] = await lib.send(ctx,embed,guildVars["previous"])
             lib.set(ctx.guild.id,self.bot,guildVars)
             return
-        if command:
-            page = int(command[0])
-        else:
-            page = 1
         q = guildVars["player"].queue
         qlist = ""
         qlen = len(q)

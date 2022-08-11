@@ -12,55 +12,65 @@ class play(commands.Cog):
     def __init__(self,bot):
         self.bot = bot
         self.category = lib.getCategory(self.__module__)
-        self.description = "Fetches audio from youtube to play in the current voice channel"
+        self.description = "Fetches audio from youtube or a url to play in the current voice channel"
         self.usage = f"""
         {self.bot.command_prefix}play <search term>
         {self.bot.command_prefix}play <youtube_url>
         """
         self.hidden = False
         
-    @commands.command()
-    async def play(self, ctx, *command):
+    @nextcord.slash_command()
+    async def play(self, ctx, track=None):
+        await ctx.response.defer(with_message=True)
+        """Fetches audio from youtube or a url to play in the current voice channel.
+
+        Parameters
+        ----------
+            ctx: Interaction
+                The interaction object
+            track: str
+                The track to search for and play
+        """
         guildVars = lib.retrieve(ctx.guild.id, self.bot)
         # No track specified, figure out if resuming
-        if len(command) == 0:
-            if ctx.voice_client != None:
-                if guildVars['player'].ispaused:
-                    ctx.voice_client.resume()
-                    guildVars['player'].ispaused = False
-                    embed = lib.embed(
-                        title = 'Playback has been resumed.'
-                    )
-                    guildVars["previous"] = await lib.send(ctx,embed,guildVars["previous"])
-                    lib.set(ctx.guild.id,self.bot,guildVars)
-                    return
+        if not track:
+            if not guildVars['player']:
+                embed = lib.embed(
+                    title = 'You did not specify what to play.',
+                    color = lib.errorColour
+                )
+                guildVars["previous"] = await lib.send(ctx,embed,guildVars["previous"])
+                lib.set(ctx.guild.id,self.bot,guildVars)
+                return
+            if guildVars['player'].ispaused:
+                guildVars['player'].voiceclient.resume()
+                guildVars['player'].ispaused = False
+                embed = lib.embed(
+                title = 'Playback has been resumed.'
+                )
+                guildVars["previous"] = await lib.send(ctx,embed,guildVars["previous"])
+                lib.set(ctx.guild.id,self.bot,guildVars)
+                return
             embed = lib.embed(
-                title = 'You did not specify what to play.',
-                color = lib.errorColour
-            )
+                    title = 'You did not specify what to play.',
+                    color = lib.errorColour
+                )
             guildVars["previous"] = await lib.send(ctx,embed,guildVars["previous"])
             lib.set(ctx.guild.id,self.bot,guildVars)
             return
+            
         # Join channel if not already in one
         elif not guildVars['player']:
             guildVars["player"] = Player(ctx.guild, ctx)
-            if ctx.me.voice:
-                guildVars['player'].voiceclient = ctx.voice_client
-            else:
-                await guildVars["player"].connect(ctx.author.voice.channel)
-        elif ctx.author.voice.channel != ctx.me.voice.channel:
+            await guildVars["player"].connect(ctx.user.voice.channel)
+        elif ctx.user.voice.channel != guildVars['player'].voiceclient.channel:
             embed = lib.embed(
                 title = "You must be in the same voice channel as the bot to play"
             )
             guildVars["previous"] = await lib.send(ctx,embed,guildVars["previous"])
             lib.set(ctx.guild.id,self.bot,guildVars)
             return
-        ## If more than one word is passed, collapse args into one string
-        if len(command) > 1:
-            media = " ".join(command)
-        else:
-            media = command[0]
-        
+        media = track
         lib.set(ctx.guild.id,self.bot,guildVars)
         await self.playback(media,ctx.guild)
             

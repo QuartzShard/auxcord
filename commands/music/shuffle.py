@@ -17,8 +17,16 @@ class shuffle(commands.Cog):
         """
         self.hidden = False
         
-    @commands.command()
-    async def shuffle(self, ctx, *command):
+    @nextcord.slash_command()
+    async def shuffle(self, ctx):
+        """Randomizes the order of the queue.
+        
+        Parameters
+        ----------
+            ctx: Interaction
+                The interaction object
+        """
+        
         guildVars = lib.retrieve(ctx.guild.id, self.bot)
         if not guildVars["player"]:
             embed = lib.embed(
@@ -28,7 +36,7 @@ class shuffle(commands.Cog):
             guildVars["previous"] = await lib.send(ctx,embed,guildVars["previous"])
             lib.set(ctx.guild.id,self.bot,guildVars)
             return
-        elif ctx.author.voice.channel != ctx.me.voice.channel:
+        elif ctx.user.voice.channel != guildVars['player'].voiceclient.channel:
             embed = lib.embed(
                 title = "You must be in the same voice channel as the bot to shuffle"
             )

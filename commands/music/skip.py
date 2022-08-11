@@ -17,8 +17,15 @@ class skip(commands.Cog):
         """
         self.hidden = False
         
-    @commands.command()
-    async def skip(self, ctx, *command):
+    @nextcord.slash_command()
+    async def skip(self, ctx):
+        """Skip the current track.
+        
+        Parameters
+        ----------
+            ctx: Interaction
+                The interaction object
+        """
         guildVars = lib.retrieve(ctx.guild.id, self.bot)
         if not guildVars["player"]:
             embed = lib.embed(

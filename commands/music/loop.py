@@ -17,8 +17,15 @@ class loop(commands.Cog):
         """
         self.hidden = False
         
-    @commands.command()
-    async def loop(self, ctx, *command):
+    @nextcord.slash_command()
+    async def loop(self, ctx):
+        """Loops the current queue.
+
+        Parameters
+        ----------
+            ctx: Interaction
+                The interaction object    
+        """
         guildVars = lib.retrieve(ctx.guild.id, self.bot)
         
         if not guildVars["player"]:

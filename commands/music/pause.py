@@ -17,10 +17,17 @@ class pause(commands.Cog):
         """
         self.hidden = False
         
-    @commands.command()
-    async def pause(self, ctx, *command):
+    @nextcord.slash_command()
+    async def pause(self, ctx):
+        """Pauses current playback.
+
+        Parameters
+        ----------
+            ctx: Interaction
+                The interaction object
+        """
         guildVars = lib.retrieve(ctx.guild.id, self.bot)
-        if not ctx.me.voice or ctx.voice_client == None:
+        if not guildVars['player']:
             embed = lib.embed(
                 title = 'There is nothing currently playing',
                 color = lib.errorColour
@@ -28,7 +35,7 @@ class pause(commands.Cog):
             guildVars["previous"] = await lib.send(ctx,embed,guildVars["previous"])
             lib.set(ctx.guild.id,self.bot,guildVars)
             return
-        elif ctx.author.voice.channel != ctx.me.voice.channel:
+        elif ctx.user.voice.channel != guildVars['player'].voiceclient.channel:
             embed = lib.embed(
                 title = 'You must be in the same voice channel as the bot to pause',
                 color = lib.errorColour
@@ -44,7 +51,7 @@ class pause(commands.Cog):
             guildVars["previous"] = await lib.send(ctx,embed,guildVars["previous"])
             lib.set(ctx.guild.id,self.bot,guildVars)
             return
-        ctx.voice_client.pause()
+        guildVars['player'].voiceclient.pause()
         guildVars['player'].ispaused = True
         embed = lib.embed(
             title = f'Playback has been paused, use {self.bot.command_prefix}play to resume'
