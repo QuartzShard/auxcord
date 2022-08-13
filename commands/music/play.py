@@ -21,7 +21,6 @@ class play(commands.Cog):
         
     @nextcord.slash_command()
     async def play(self, ctx, track=None):
-        await ctx.response.defer(with_message=True)
         """Fetches audio from youtube or a url to play in the current voice channel.
 
         Parameters
@@ -31,6 +30,7 @@ class play(commands.Cog):
             track: str
                 The track to search for and play
         """
+        await ctx.response.defer(with_message=True)
         guildVars = lib.retrieve(ctx.guild.id, self.bot)
         # No track specified, figure out if resuming
         if not track:
