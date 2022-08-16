@@ -41,11 +41,15 @@ class Track():
                 playlistq, footer = await self.handlePlaylist(player)
                 if not playlistq:
                     player.addtoqueue(self)
-                return lib.embed(
-                    title="Something went wrong playing that track.",
-                    footer="If the bot has just restarted and is still in the voice channel, disconnect it and try again",
-                    colour=lib.errorColour
-                )
+                if footer:
+                    return lib.embed(
+                        title = f"{len(self.toQueue) + 1} tracks added to queue",                           
+                    )
+                else:
+                    return lib.embed(
+                        title = "Track added to queue",
+                        description = self.title
+                    )
             else:
                 playlistq, footer = await self.handlePlaylist(player)
                 if player.queue == []:
